@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -23,5 +25,11 @@ public class TransferenciaDTO {
                 transferencia.getValor(),
                 transferencia.getTipo(),
                 transferencia.getNomeOperadorTransacao());
+    }
+
+    public static List<TransferenciaDTO> fromTransferencias(List<Transferencia> transferencias) {
+        return transferencias.stream()
+                .map(TransferenciaDTO::fromTransferencia)
+                .collect(Collectors.toList());
     }
 }
