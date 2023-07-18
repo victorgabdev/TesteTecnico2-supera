@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Service
@@ -23,7 +24,7 @@ public class ExtratoService {
     @Autowired
     TransferenciaRepository transferenciaRepository;
 
-   public Page<TransferenciaDTO> obterExtrato(Long contaId, LocalDate inicio, LocalDate fim, String nomeOperadorTransacao, Pageable pageable) {
+   public Page<TransferenciaDTO> obterExtrato(Long contaId, LocalDateTime inicio, LocalDateTime fim, String nomeOperadorTransacao, Pageable pageable) {
        // Obter a conta com basa no id fornecido
        Conta conta = contaRepository.findById(contaId).
                orElseThrow(() -> new CustomException("Conta não encontrada", HttpStatus.NOT_FOUND));
