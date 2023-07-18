@@ -40,12 +40,4 @@ public class Conta implements Serializable {
         return Objects.hash(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Conta{" +
-                "id=" + id +
-                ", nomeResponsavel='" + nomeResponsavel + '\'' +
-                ", transferencias=" + transferencias +
-                '}';
-    }
 }

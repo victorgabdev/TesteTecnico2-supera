@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/extrato")
@@ -26,14 +25,12 @@ public class ExtratoController {
             @PathVariable Long contaId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
-            @RequestParam(required = false) String nomeOperador,
+            @RequestParam(required = false) String nomeOperadorTransacao,
             Pageable pageable
             ) {
 
-        Page<TransferenciaDTO> extrato = extratoService.obterExtrato(contaId, inicio, fim, nomeOperador, pageable);
+        Page<TransferenciaDTO> extrato = extratoService.obterExtrato(contaId, inicio, fim, nomeOperadorTransacao, pageable);
         return ResponseEntity.ok(extrato);
 
     }
-
-
 }

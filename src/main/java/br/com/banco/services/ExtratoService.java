@@ -1,17 +1,17 @@
 package br.com.banco.services;
 
 import br.com.banco.entities.Conta;
-import br.com.banco.entities.Transferencia;
 import br.com.banco.entities.dtos.TransferenciaDTO;
 import br.com.banco.exceptions.CustomException;
 import br.com.banco.repositories.ContaRepository;
 import br.com.banco.repositories.TransferenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
 
 
 @Service
@@ -23,17 +23,30 @@ public class ExtratoService {
     @Autowired
     TransferenciaRepository transferenciaRepository;
 
-    public List<TransferenciaDTO> getAll() {
-        List<Transferencia> transferencias = transferenciaRepository.findAll();
-        return TransferenciaDTO.fromTransferencias(transferencias);
-    }
+   public Page<TransferenciaDTO> obterExtrato(Long contaId, LocalDate inicio, LocalDate fim, String nomeOperadorTransacao, Pageable pageable) {
+       // Obter a conta com basa no id fornecido
+       Conta conta = contaRepository.findById(contaId).
+               orElseThrow(() -> new CustomException("Conta não encontrada", HttpStatus.NOT_FOUND));
 
-    public List<TransferenciaDTO> getAllByContaId(Long contaId) {
-        // Se não existir a conta
-        Optional<Conta> conta = contaRepository.findById(contaId);
-        if(conta.isEmpty()) throw  new CustomException("Conta Não Existe", HttpStatus.NOT_FOUND);
+       // Caso todos os filtros sejam informados
+       if (inicio != null && fim != null && nomeOperadorTransacao != null) {
+           return transferenciaRepository.findByContaAndDataTransferenciaBetweenAndNomeOperadorTransacao(conta, inicio, fim, nomeOperadorTransacao, pageable)
+                   .map(TransferenciaDTO::fromTransferencia);
+       }
 
-        List<Transferencia> transferencias = conta.get().getTransferencias();
-        return TransferenciaDTO.fromTransferencias(transferencias);
-    }
+       // Caso seja informado um período de tempo (início e fim)
+       if (inicio != null && fim != null) {
+           return transferenciaRepository.findByContaAndDataTransferenciaBetween(conta, inicio, fim, pageable)
+                   .map(TransferenciaDTO::fromTransferencia);
+       }
+
+       // Caso seja informado o nome do operador da transação
+       if (nomeOperadorTransacao != null) {
+           return transferenciaRepository.findByContaAndNomeOperadorTransacao(conta, nomeOperadorTransacao, pageable)
+                   .map(TransferenciaDTO::fromTransferencia);
+       }
+
+       //  Caso nenhum filtro seja informado
+       return transferenciaRepository.findByConta(conta, pageable).map(TransferenciaDTO::fromTransferencia);
+   }
 }

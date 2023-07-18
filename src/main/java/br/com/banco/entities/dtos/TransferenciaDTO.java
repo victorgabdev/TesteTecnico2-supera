@@ -1,35 +1,38 @@
 package br.com.banco.entities.dtos;
 
 import br.com.banco.entities.Transferencia;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class TransferenciaDTO {
 
     public LocalDate dataTransferencia;
     private Double valor;
     private String tipo;
-    private String nomeOperadorTransacao;
+    private String nomeOperador;
 
-    public static TransferenciaDTO fromTransferencia(Transferencia transferencia) {
-        return new TransferenciaDTO(
-                transferencia.getDataTransferencia().toLocalDate(),
-                transferencia.getValor(),
-                transferencia.getTipo(),
-                transferencia.getNomeOperadorTransacao());
+    public TransferenciaDTO(LocalDateTime dataTransferencia, Double valor, String tipo, String nomeOperador) {
+        setData(dataTransferencia);
+        this.valor = valor;
+        this.tipo = tipo;
+        this.nomeOperador = nomeOperador;
     }
 
-    public static List<TransferenciaDTO> fromTransferencias(List<Transferencia> transferencias) {
-        return transferencias.stream()
-                .map(TransferenciaDTO::fromTransferencia)
-                .collect(Collectors.toList());
+    public void setData(LocalDateTime data) {
+        this.dataTransferencia = data != null ? data.toLocalDate() : null;
+    }
+
+    public static TransferenciaDTO fromTransferencia(Transferencia transferencia) {
+        TransferenciaDTO transferenciaDTO = new TransferenciaDTO();
+        transferenciaDTO.setData(transferencia.getDataTransferencia());
+        transferenciaDTO.setValor(transferencia.getValor());
+        transferenciaDTO.setTipo(transferencia.getTipo());
+        transferenciaDTO.setNomeOperador(transferencia.getNomeOperadorTransacao());
+        return transferenciaDTO;
     }
 }

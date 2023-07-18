@@ -41,15 +41,4 @@ public class Transferencia implements Serializable {
         return Objects.hash(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Transferencia{" +
-                "id=" + id +
-                ", dataTransferencia=" + dataTransferencia +
-                ", valor=" + valor +
-                ", tipo='" + tipo + '\'' +
-                ", nomeOperadorTransacao='" + nomeOperadorTransacao + '\'' +
-                ", conta=" + conta +
-                '}';
-    }
 }
