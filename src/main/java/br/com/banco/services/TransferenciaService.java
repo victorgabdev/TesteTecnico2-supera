@@ -1,5 +1,6 @@
 package br.com.banco.services;
 
+import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.entities.dtos.TransferenciaDTO;
 import br.com.banco.repositories.ContaRepository;
@@ -21,6 +22,14 @@ public class TransferenciaService {
 
     public List<TransferenciaDTO> getAll() {
         List<Transferencia> transferencias = transferenciaRepository.findAll();
+        return TransferenciaDTO.fromTransferencias(transferencias);
+    }
+
+    public List<TransferenciaDTO> getAllByContaId(Long contaId) {
+        // Se não existir a conta
+
+        Conta conta = contaRepository.getById(contaId);
+        List<Transferencia> transferencias = conta.getTransferencias();
         return TransferenciaDTO.fromTransferencias(transferencias);
     }
 }
