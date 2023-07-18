@@ -3,37 +3,32 @@ package br.com.banco.controllers;
 import br.com.banco.entities.dtos.TransferenciaDTO;
 import br.com.banco.services.ExtratoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/transferencias")
+@RequestMapping("/extrato")
 public class ExtratoController {
 
     @Autowired
-    ExtratoService transferenciaService;
+    ExtratoService extratoService;
 
-    // Retornar todas as trnasferências]
+    // Levei em consideração que o numero da conta será o id da conta
     @GetMapping
-    public ResponseEntity<List<TransferenciaDTO>> getAll() {
-        List<TransferenciaDTO> transferenciaDTOList = transferenciaService.getAll();
-        return ResponseEntity.ok().body(transferenciaDTOList);
+    public ResponseEntity<List<TransferenciaDTO>> getExtrato(
+            @RequestParam(required = false) Long numeroConta,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim,
+            @RequestParam(required = false) String nomeOperador
+            ) {
+
+        // List<TransferenciaDTO> extrato = extratoService.obterExtrato(numeroConta, inicio, fim, nomeOperador);
+
     }
 
-    // Retornar todas as transferências de acordo com número da conta bancária (Considerei o id da conta)
-    @GetMapping("/{contaId}")
-    public ResponseEntity<List<TransferenciaDTO>> getAllByContaId(@PathVariable Long contaId) {
-        List<TransferenciaDTO> transferenciaDTOList = transferenciaService.getAllByContaId(contaId);
-        return ResponseEntity.ok().body(transferenciaDTOList);
-    }
-
-    // Retornar todas as transferências de acordo com um período de tempo
-    // Retornar todas as transferências relacionadas ao nome do operador
-    // Retornar todas as transferências de acordo com com um período de tempo e o nome do operador
 
 }
