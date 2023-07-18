@@ -1,49 +1,85 @@
-# Processo Seletivo Java
+# Projeto Extrato Bancário (Backend)
 
-## Descrição 
+Este projeto "Banco" é uma aplicação de exemplo que demonstra o uso do Spring Boot e do Spring Data JPA
+para criar um sistema básico de banco com funcionalidades de extrato bancário.
+O projeto utiliza as seguintes tecnologias:
 
-- Este teste consiste em construir uma camada de serviço, para uma operação muito realizada em bancos, para emissão de extrato bancário.
+- Java 11
+- Spring Boot
+- Spring Data JPA
+- H2 Database
+- JUnit
+- Lombook
 
+## Estrutura do projeto
 
-## Como executar a aplicação 
+O Projeto está estruturado em diferentes camadas, seguindo as melhores práticas de desenvolvimento em Java.
+Cada camada tem uma responsabilidade específica e contribui para o funcionamento correto do sistema.
+A seguir, são explicadas as principais camadas do projeto:
 
-- Você pode executar a aplicação da maneira que quiser e utilizando a IDE de sua preferência. 
-- Caso queira executar a aplicação via linha de comando, execute primeiramente o comando:
+### Entidades (Entities)
+A camada de entidades é responsável por modelar as estruturas de dados da aplicação.
+Neste projeto, as principais entidades são **`Conta`** e **`Transferencia`**.
+A entidade **`Conta`** representa uma conta bancária, enquanto a entidade **`Transferencia`** representa uma transferência de fundos entre contas.
+A relação entre **`Conta`** e **`Transferencia`** é um relacionamento de "um para muitos", ou seja, uma conta pode ter várias transferências.
 
-                   ./mvnw clean package  para linux.
+### Repositórios (Repositories)
+A camada de repositórios é responsável pela interação com o banco de dados.
+Neste projeto, os repositórios são interfaces que estendem a interface **`JpaRepository`** do Spring Data JPA.
+Eles fornecem métodos para realizar operações de consulta, inserção, atualização e exclusão no banco de dados.
+Os principais repositórios neste projeto são **`ContaRepository`** e **`TransferenciaRepository`**.
 
-                   .\mvnw clean package  para windows.
-- Após isso execute o comando: 
+### Serviços (Services)
+A camada de serviços contém a lógica de negócio da aplicação.
+Neste projeto, o serviço principal é o **`ExtratoService`**, que é responsável por fornecer funcionalidades relacionadas ao extrato bancário.
+Ele utiliza os repositórios para obter os dados necessários e realiza as operações de filtragem e paginação.
 
-                             java -jar <...caminhoParaSeuJar>
+### Controladores (Controllers)
+A camada de controladores é responsável por receber as requisições HTTP e direcioná-las para os serviços adequados.
+Neste projeto, o controlador **`ExtratoController`** expõe endpoints para obter o extrato bancário com base nos filtros fornecidos,
+como período de tempo e nome do operador de transação.
 
-## Requisitos de sistema
+### Camada de Testes
+O projeto também conta com uma camada de testes, que é fundamental para garantir a qualidade do código 
+e a correta funcionalidade da aplicação. Os testes unitários são escritos utilizando o
+framework JUnit. Os testes validam o comportamento esperado dos serviços e controladores, verificando se as respostas estão corretas e se os erros são tratados adequadamente.
 
-- Possuir a JDK 11 
-- Uma IDE ou editor de sua preferência
+## Data.sql 
+No arquivo **`data.sql`**, foram adicionadas novas contas e transferências para enriquecer os dados do sistema.
+As contas foram adicionadas com os IDs 1 a 30, e as transferências foram adicionadas relacionadas a essas contas.
 
-## Requisitos do Projeto
+## Tecnologias Utilizadas
 
-- A sua api deve fornecer os dados de transferência de acordo com o número da conta bacária.
-- Caso não seja informado nenhum filtro, retornar  todos os dados de transferência.
-- Caso seja informado um período de tempo, retornar todas as transferências relacionadas à aquele período de tempo.
-- Caso seja informado o nome do operador da transação, retornar todas as transferências relacionados à aquele operador.
-- Caso todos os filtros sejam informados, retornar todas as transferências com base no período de tempo informado e o nome do operador.
-- Operador de transação nada mais é que, o nome do responsável de destino da transação caso seja uma operação de transferência de saida ou o nome do responsável de onde se originou a transação caso seja uma operação de transferência de entrada.
-- Os valores devem ser de ponto flutuante, e deve-se considerar apenas duas casas decimais.
-- O frontend deve seguir como exemplo o protótipo informado no documento do processo seletivo.
-- No frontend o usuário deve ser capaz de informar um período de tem e/ou nome do operador da transasção como filtros para buscar as transações.
-- As transações devem ser exibidas junto com o saldo total e o saldo total no período de acordo com o protótipo do documento.
+- Java 11: Linguagem de programação utilizada no projeto.
+- Spring Boot: Framework utilizado para desenvolvimento de aplicações Java.
+- Spring Data JPA: Biblioteca que simplifica o acesso a banco de dados com o Spring.
+- H2 Database: Banco de dados em memória utilizado para armazenar os dados da aplicação.
+- JUnit: Framework de testes unitários para Java.
+- Lombok: Biblioteca que automatiza a geração de código repetitivo em classes Java.
 
-## O que iremos avaliar
-- Cumprimento dos requisitos
-- Qualidade do projeto de API e fluidez da DX
-- Organização do código e boas práticas
-- Domínio das linguagens, bibliotecas e ferramentas utilizadas
-- Organização dos commits
-- Escrita e cobertura de testes
+## Como executar o projeto
 
-## Sobre a entrega
-- Utilizar o padrão RESTFul para a construção da sua API.
-- Existe um script sql no pacote resources que cotém a modelagem do banco que pode ser seguida, e valores iniciais.
-- Caso julge necessário você poderá criar mais tablas, porém a estrutura inicial não deve ser alterada.
+1. Certifique-se de ter o Java 11 instalado em sua máquina.
+2. Clone o repositório do projeto.
+3. Abra o projeto em sua IDE preferida (recomendo o IntelliJ IDEA).
+4. Aguarde as dependências serem baixadas pelo Maven.
+5. Execute a classe BancoApplication como um aplicativo Java.
+6. O aplicativo será iniciado e estará disponível em http://localhost:8080.
+
+## Considerações Finais
+
+O projeto "Banco" é um exemplo simples que demonstra o uso do Spring Boot e do Spring Data JPA
+para criar uma aplicação bancária com funcionalidades de extrato. Ele utiliza as melhores práticas
+de desenvolvimento e inclui testes unitários para garantir a qualidade do código.
+
+Sinta-se à vontade para explorar o código-fonte e os testes, bem como para realizar alterações
+e adicionar novas funcionalidades. Este projeto serve como base para entender e praticar conceitos
+importantes de desenvolvimento de software com Java e o ecossistema Spring.
+
+Espero que esta documentação tenha fornecido uma visão geral clara do projeto "Banco"
+e suas principais camadas. Se você tiver alguma dúvida adicional ou precisar de mais informações,
+não hesite em entrar em contato.
+
+Email: victorgabdev@gmail.com <br />
+Linkedin: www.linkedin.com/in/victor-gabriel-developer <br />
+Telefone e Whatsapp: (98) 981815720
