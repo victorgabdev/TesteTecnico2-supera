@@ -15,7 +15,7 @@ import java.util.Optional;
 
 
 @Service
-public class TransferenciaService {
+public class ExtratoService {
 
     @Autowired
     ContaRepository contaRepository;

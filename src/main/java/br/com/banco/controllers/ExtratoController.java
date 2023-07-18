@@ -1,7 +1,7 @@
 package br.com.banco.controllers;
 
 import br.com.banco.entities.dtos.TransferenciaDTO;
-import br.com.banco.services.TransferenciaService;
+import br.com.banco.services.ExtratoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transferencias")
-public class TransferenciasController {
+public class ExtratoController {
 
     @Autowired
-    TransferenciaService transferenciaService;
+    ExtratoService transferenciaService;
 
     // Retornar todas as trnasferências]
     @GetMapping
